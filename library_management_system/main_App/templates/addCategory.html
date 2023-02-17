@@ -1,0 +1,77 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Lists | Library Management System</title>
+
+    <style>
+        
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+{% include 'navbar.html' %}
+
+<body style="background-color: rgb(45,45,45);">
+    {% include 'snackbar.html' %}
+    {% if user.is_authenticated %}
+    <div id="dblistDiv" class="container" style="margin: 0;">
+        <div class="row" style="height: 100%; display: flex; flex-direction: column;">
+            <div style="margin: 0 0 0 18px; padding: 0; border-left: 1px solid #fff; border-right: 1px solid #fff; height: 100%;"
+                class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                {% include 'dblists.html' %}
+            </div>
+            <div style="color: #fff;" class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+                <h2 style="margin-top: 20px;">Add new Category List</h2>
+                <form id="addCategoryForm" method="post">
+                    {% csrf_token %}
+                    <div class="form-floating">
+                        <input name="categoryID" type="number" class="form-control" id="floatingPassword3" placeholder="Password">
+                        <label for="floatingPassword3">Category ID:</label>
+                    </div>
+                    <p style="color: #dc3545; display: none;" id="catIdError"><i class="bi bi-exclamation-circle-fill"></i><span id="catIdErrorText"></span></p>
+                    <div style="margin-top:9px" class="form-floating">
+                        <input name="categoryName" type="text" class="form-control" id="floatingPassword4" placeholder="Password">
+                        <label for="floatingPassword4">Category Name:</label>
+                    </div>
+                    <p style="color: #dc3545; display: none;" id="catNameError"><i class="bi bi-exclamation-circle-fill"></i><span id="catNameErrorText"></span></p>
+                </form>
+                <button id="saveBtn" class="btn-primary btn" style="float: right; margin-left: 8px;">Save</button>
+                <button id="saveAnotherBtn" class="btn-primary btn" style="float: right;">Save and Another</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#saveBtn').click(function(){
+            catID=$('#floatingPassword3').val();
+            catName=$('#floatingPassword4').val();
+            if(catID==''){
+                $('#floatingPassword3').addClass('is-invalid');
+                $('#catIdErrorText').text(' Category ID cannot be empty!');
+                $('#catIdError').css('display','block');
+            }else{
+                $('#catIdError').css('display', 'none');
+                $('#floatingPassword3').removeClass('is-invalid');
+                if(catName!=''){
+                    $('#floatingPassword4').removeClass('is-invalid');
+                    $('#catNameError').css('display', 'none');
+                    $('#addCategoryForm').submit();
+                }else{
+                    $('#floatingPassword4').addClass('is-invalid');
+                    $('#catNameErrorText').text(' Category Name cannot be empty!');
+                    $('#catNameError').css('display', 'block');
+                }
+            }
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,13 @@
+os
+sys
+django.core.wsgi
+django.core.asgi
+django.contrib
+django.urls
+pathlib
+django.db
+django.apps
+django.test
+django.shortcuts
+django
+django-admin
